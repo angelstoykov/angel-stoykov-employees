@@ -1,4 +1,5 @@
-﻿using BuddiesOnProject.Core.Contracts;
+﻿using BuddiesOnProject.Common;
+using BuddiesOnProject.Core.Contracts;
 using BuddiesOnProject.IO;
 using BuddiesOnProject.IO.Contracts;
 using BuddiesOnProject.Models.Employees;
@@ -38,21 +39,25 @@ namespace BuddiesOnProject.Core
 
                     if (!string.IsNullOrEmpty(line) || !string.IsNullOrWhiteSpace(line))
                     {
-                        var tokens = line.Split(", ");
-                        DateTime.TryParse(tokens[2], out var dateFrom);
+                        var tokens = line.Split(", ").ToList();
 
-                        var employee = new Employee
+                        if (tokens.Count == Constants.TOKENS_COUNT)
                         {
-                            EmployeeId = long.Parse(tokens[0]),
-                            ProjectId = long.Parse(tokens[1]),
-                            PeriodWorked = new PeriodWorked
-                            {
-                                DateFrom = dateFrom,
-                                DateTo = DateTime.TryParse(tokens[3], out var dateTo) ? dateTo : null
-                            }
-                        };
+                            DateTime.TryParse(tokens[2], out var dateFrom);
 
-                        emloyees.Add(employee);
+                            var employee = new Employee
+                            {
+                                EmployeeId = long.Parse(tokens[0]),
+                                ProjectId = long.Parse(tokens[1]),
+                                PeriodWorked = new PeriodWorked
+                                {
+                                    DateFrom = dateFrom,
+                                    DateTo = DateTime.TryParse(tokens[3], out var dateTo) ? dateTo : null
+                                }
+                            };
+
+                            emloyees.Add(employee);
+                        }
                     }
                 }
             }
