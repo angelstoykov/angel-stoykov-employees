@@ -33,16 +33,16 @@ namespace BuddiesOnProject.Models.Projects
 
             if (team.Count >= 2)
             {
-                foreach (var employee in team)
+                for (var i = 0; i < team.Count; i++)
                 {
-                    foreach (var otherEmployee in team)
+                    for (var j = i + 1; j < team.Count; j++)
                     {
-                        if (employee.EmployeeId != otherEmployee.EmployeeId)
+                        if (team[i].EmployeeId != team[j].EmployeeId)
                         {
-                            var employeeStartDate = employee.PeriodWorked.DateFrom;
-                            var employeeEndDate = employee.PeriodWorked.DateTo != null ? employee.PeriodWorked.DateTo : DateTime.Now;
-                            var otherEmployeeStartDate = otherEmployee.PeriodWorked.DateFrom;
-                            var otherEmployeeEndDate = otherEmployee.PeriodWorked.DateTo != null ? otherEmployee.PeriodWorked.DateTo : DateTime.Now;
+                            var employeeStartDate = team[i].PeriodWorked.DateFrom;
+                            var employeeEndDate = team[i].PeriodWorked.DateTo != null ? team[i].PeriodWorked.DateTo : DateTime.Now;
+                            var otherEmployeeStartDate = team[j].PeriodWorked.DateFrom;
+                            var otherEmployeeEndDate = team[j].PeriodWorked.DateTo != null ? team[j].PeriodWorked.DateTo : DateTime.Now;
                             var overlapDuration = 0;
 
                             var startOfoverlap = employeeStartDate > otherEmployeeStartDate ? employeeStartDate : otherEmployeeStartDate;
@@ -56,8 +56,8 @@ namespace BuddiesOnProject.Models.Projects
                                 {
                                     employeesWokedMax.ProjectId = ProjectId;
                                     employeesWokedMax.Employees.Clear();
-                                    employeesWokedMax.Employees.Add(employee);
-                                    employeesWokedMax.Employees.Add(otherEmployee);
+                                    employeesWokedMax.Employees.Add(team[i]);
+                                    employeesWokedMax.Employees.Add(team[j]);
                                 }
                             }
                         }
