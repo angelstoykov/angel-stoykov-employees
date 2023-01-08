@@ -54,10 +54,19 @@ namespace BuddiesOnProject.Models.Projects
 
                                 if (overlapDuration > maxDurationInDays)
                                 {
+                                    maxDurationInDays = overlapDuration;
                                     employeesWokedMax.ProjectId = ProjectId;
                                     employeesWokedMax.Employees.Clear();
                                     employeesWokedMax.Employees.Add(team[i]);
                                     employeesWokedMax.Employees.Add(team[j]);
+                                }
+                                else if (overlapDuration == maxDurationInDays)
+                                {
+                                    if(!employeesWokedMax.Employees.Contains(team[i]))
+                                        employeesWokedMax.Employees.Add(team[i]);
+
+                                    if (!employeesWokedMax.Employees.Contains(team[j]))
+                                        employeesWokedMax.Employees.Add(team[j]);
                                 }
                             }
                         }
